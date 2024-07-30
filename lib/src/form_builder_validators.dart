@@ -764,6 +764,8 @@ class FormBuilderValidators {
   /// - [errorText] The error message when the first name is invalid.
   /// - [checkNullOrEmpty] Whether to check for null or empty values.
   static FormFieldValidator<String> firstName({
+    int minLength = 3,
+    int maxLength = 32,
     RegExp? regex,
     List<String> firstNameWhitelist = const <String>[],
     List<String> firstNameBlacklist = const <String>[],
@@ -771,6 +773,8 @@ class FormBuilderValidators {
     bool checkNullOrEmpty = true,
   }) =>
       FirstNameValidator(
+        minLength: minLength,
+        maxLength: maxLength,
         regex: regex,
         firstNameWhitelist: firstNameWhitelist,
         firstNameBlacklist: firstNameBlacklist,

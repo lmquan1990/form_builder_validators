@@ -14,18 +14,28 @@ import '../base_validator.dart';
 /// - [firstNameBlacklist] A list of invalid first names that are explicitly disallowed.
 /// - [errorText] The error message returned if the validation fails.
 /// - [checkNullOrEmpty] Whether to check if the value is null or empty.
+/// - [minLength] The minimum length of the username. Defaults to 3.
+/// - [maxLength] The maximum length of the username. Defaults to 32.
 ///
 /// {@endtemplate}
 class FirstNameValidator extends BaseValidator<String> {
   /// Constructor for the first name validator.
   FirstNameValidator({
     /// {@macro first_name_template}
+    this.minLength = 3,
+    this.maxLength = 32,
     RegExp? regex,
     this.firstNameWhitelist = const <String>[],
     this.firstNameBlacklist = const <String>[],
     super.errorText,
     super.checkNullOrEmpty,
   }) : regex = regex ?? _firstName;
+
+  /// The minimum length of the username.
+  final int minLength;
+
+  /// The maximum length of the username.
+  final int maxLength;
 
   /// The regular expression used to validate the first name format.
   final RegExp regex;
@@ -52,6 +62,18 @@ class FirstNameValidator extends BaseValidator<String> {
 
   @override
   String? validateValue(String valueCandidate) {
+    if (valueCandidate.length < minLength) {
+      return errorText != FormBuilderLocalizations.current.usernameErrorText
+          ? errorText
+          : FormBuilderLocalizations.current.minLengthErrorText(minLength);
+    }
+
+    if (valueCandidate.length > maxLength) {
+      return errorText != FormBuilderLocalizations.current.usernameErrorText
+          ? errorText
+          : FormBuilderLocalizations.current.maxLengthErrorText(maxLength);
+    }
+    
     if (firstNameBlacklist.contains(valueCandidate)) {
       return errorText;
     }
