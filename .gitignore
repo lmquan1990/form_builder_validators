@@ -76,5 +76,5 @@ pubspec.lock
 !**/ios/**/default.perspectivev3
 
 # L10n files
-**/intl
+# **/intl
 coverage/lcov.info
